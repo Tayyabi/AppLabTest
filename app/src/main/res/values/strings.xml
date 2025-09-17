@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">AppLabTest</string>
+
+    <!-- Location and titles -->
+    <string name="location_al_shamal_qatar">Al Shamal, Qatar</string>
+    <string name="detailed_forecast">Detailed Forecast</string>
+    <string name="hourly_forecast">Hourly forecast</string>
+    <string name="daily_forecast">Daily forecast</string>
+
+    <!-- Weather information -->
+    <string name="humidity">Humidity</string>
+    <string name="uv_index">UV Index</string>
+    <string name="pressure">Pressure</string>
+    <string name="visibility">Visibility</string>
+    <string name="precipitation">PRECIP</string>
+    <string name="wind_direction_ne">NE</string>
+    <string name="wind_speed_kmh">%s km/h</string>
+    <string name="temperature_celsius">%s°C</string>
+    <string name="temperature_range">%s°/%s°C</string>
+
+    <!-- Weather conditions -->
+    <string name="partially_cloudy">Partially Cloudy</string>
+    <string name="feels_like">Feels like %s°</string>
+    <string name="clear">Clear</string>
+
+    <!-- Warning messages -->
+    <string name="thunderstorm_warning">Thunderstorms likely to continue for the next several hours</string>
+
+    <!-- Days of week -->
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+
+    <!-- Time labels -->
+    <string name="now">Now</string>
+    <string name="time_12_pm">12 PM</string>
+    <string name="time_1_pm">1 PM</string>
+    <string name="time_2_pm">2 PM</string>
+
+    <!-- Content descriptions -->
+    <string name="content_desc_location_dropdown">Location dropdown</string>
+    <string name="content_desc_menu">Menu</string>
+    <string name="content_desc_precipitation">Precipitation</string>
+    <string name="content_desc_wind_direction">Wind direction northeast</string>
+    <string name="content_desc_wind_speed">Wind speed</string>
+    <string name="content_desc_warning">Warning</string>
+    <string name="content_desc_high_temp">High temperature</string>
+    <string name="content_desc_low_temp">Low temperature</string>
+    <string name="content_desc_clouds">Clouds</string>
+    <string name="content_desc_weather_condition">Weather condition</string>
+    <string name="content_desc_previous_date">Previous date</string>
+    <string name="content_desc_next_date">Next date</string>
+</resources>
