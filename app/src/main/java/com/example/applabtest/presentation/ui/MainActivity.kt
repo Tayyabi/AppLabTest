@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
             AppLabTestTheme {
                 // Using the new HomeScreen with bottom sheet city selection
                 HomeScreen()
+                //SideMenu(onMenuClick = {})
 
                 // Previous navigation-based implementation (commented out)
                 // val navController = rememberNavController()
