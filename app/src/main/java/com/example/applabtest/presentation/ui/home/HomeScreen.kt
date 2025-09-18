@@ -4,32 +4,45 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,18 +63,143 @@ import com.example.applabtest.presentation.theme.Pinkish_Red
 import com.example.applabtest.presentation.theme.Purple
 import com.example.applabtest.presentation.theme.Purple_Blue
 import com.example.applabtest.presentation.theme.Yellow
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(){
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        topBar = {
-            CenterAlignedTopAppBar(
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetDragHandle = null,
+        sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        sheetContent = {
+
+            val insets = WindowInsets.navigationBars.asPaddingValues()
+            Column(
                 modifier = Modifier
+                    .padding(bottom = insets.calculateBottomPadding())
                     .fillMaxWidth()
+                    .height(screenHeight * 0.95f) // 90% of screen height
+                    .background(Color.White)
+                    .padding(16.dp)
+            )
+            {
+
+                Text(
+                    text = "Custom Bottom Sheet",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Your custom content here
+                LazyColumn {
+                    items(50) { index ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            Text(
+                                text = "Item $index",
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        sheetPeekHeight = 0.dp
+    ) {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            topBar = {
+                CenterAlignedTopAppBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    Pinkish_Red,
+                                    Cloud_Burst
+                                )
+                            )
+                        ),
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    color = Color.Black.copy(alpha = 0.30f),
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                                .clickable(onClick = {
+                                    scope.launch {
+                                        scaffoldState.bottomSheetState.expand()
+                                    }
+                                })
+                        ) {
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                text = "Al Shamal, Qatar",
+                                color = Color.White,
+                                fontSize = 14.sp,
+                                textAlign = TextAlign.Center
+                            )
+
+                            Image(
+                                painter = painterResource(R.drawable.ic_keyboard_arrow_down),
+                                contentDescription = null,
+                                Modifier.padding(top = 3.dp)
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                    navigationIcon = {
+                        IconButton(onClick = {
+
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_side_menu),
+                                contentDescription = "Menu",
+                                tint = Color.White,
+                                modifier = Modifier.size(26.dp)
+                            )
+                        }
+                    },
+                    actions = {
+
+                        IconButton(onClick = {
+
+
+                        }) {
+//                        Icon(
+//                            imageVector = Icons.Default.Search,
+//                            contentDescription = "Search",
+//                            tint = Color.White
+//                        )
+                        }
+
+                    },
+                )
+            },
+        )
+        { values ->
+
+            Box(
+                modifier = Modifier
+                    .padding(values)
+                    .fillMaxSize()
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
@@ -69,143 +207,96 @@ fun HomeScreen(){
                                 Cloud_Burst
                             )
                         )
-                    ),
-                title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                color = Color.Black.copy(alpha = 0.30f),
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .padding(horizontal = 10.dp, vertical = 8.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = "Al Shamal, Qatar",
-                            color = Color.White,
-                            fontSize = 14.sp,
-                            textAlign = TextAlign.Center
-                        )
-
-                        Image(
-                            painter = painterResource(R.drawable.ic_keyboard_arrow_down),
-                            contentDescription = null,
-                            Modifier.padding(top = 3.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
-                navigationIcon = {
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_side_menu),
-                            contentDescription = "Menu",
-                            tint = Color.White,
-                            modifier = Modifier.size(26.dp)
-                        )
-                    }
-                },
-                actions = {
-
-                    IconButton(onClick = {
-
-
-                    }) {
-//                        Icon(
-//                            imageVector = Icons.Default.Search,
-//                            contentDescription = "Search",
-//                            tint = Color.White
-//                        )
-                    }
-
-                },
-            )
-        },
-    ){ values ->
-
-        Box(
-            modifier = Modifier
-                .padding(values)
-                .fillMaxSize()
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            Pinkish_Red,
-                            Cloud_Burst
-                        )
                     )
-                )
-        ){
-            Column {
+            )
+            {
+                Column {
 
-                Text(
-                    modifier = Modifier.padding(start = 16.dp, top = 5.dp),
-                    text = "Detailed Forecast",
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
-
-                Column (
-                    modifier = Modifier
-                        .padding(top = 15.dp)
-                        .fillMaxSize()
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(
-                                topStart = 15.dp,
-                                topEnd = 15.dp
-                            )
-                        )
-                        .padding(vertical = 8.dp)
-                ){
-
-                    DateChangerView()
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp, top = 5.dp),
+                        text = "Detailed Forecast",
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
 
                     Column(
                         modifier = Modifier
+                            .padding(top = 15.dp)
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(
+                                    topStart = 15.dp,
+                                    topEnd = 15.dp
+                                )
+                            )
+                            .padding(vertical = 8.dp)
                     ) {
-                        TemperatureView()
 
-                        OtherInformation()
+                        DateChangerView()
 
-                        ThunderWarning()
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            TemperatureView()
 
-                        Spacer(modifier = Modifier.height(10.dp))
-                        OtherFields(id = R.drawable.ic_humidity, title = "Humidity", value = "34%")
-                        OtherFields(id = R.drawable.ic_sun, title = "UV Index", value = "High 7")
-                        OtherFields(id = R.drawable.ic_pressure, title = "Pressure", value = "29.8 IN")
-                        OtherFields(id = R.drawable.ic_visibility, title = "Visibility", value = "10 mi", isLast = true)
+                            OtherInformation()
 
-                        Text(
-                            modifier = Modifier.padding(start = 16.dp, top = 15.dp),
-                            text = "Hourly forecast ",
-                            color = Blue,
-                            fontSize = 20.sp
-                        )
+                            ThunderWarning()
 
-                        HourlyForecast()
+                            Spacer(modifier = Modifier.height(10.dp))
+                            OtherFields(
+                                id = R.drawable.ic_humidity,
+                                title = "Humidity",
+                                value = "34%"
+                            )
+                            OtherFields(
+                                id = R.drawable.ic_sun,
+                                title = "UV Index",
+                                value = "High 7"
+                            )
+                            OtherFields(
+                                id = R.drawable.ic_pressure,
+                                title = "Pressure",
+                                value = "29.8 IN"
+                            )
+                            OtherFields(
+                                id = R.drawable.ic_visibility,
+                                title = "Visibility",
+                                value = "10 mi",
+                                isLast = true
+                            )
 
-                        Text(
-                            modifier = Modifier.padding(start = 16.dp, top = 15.dp, bottom = 15.dp),
-                            text = "Daily forecast",
-                            color = Blue,
-                            fontSize = 20.sp
-                        )
+                            Text(
+                                modifier = Modifier.padding(start = 16.dp, top = 15.dp),
+                                text = "Hourly forecast ",
+                                color = Blue,
+                                fontSize = 20.sp
+                            )
 
-                        DailyForecast(id = R.drawable.ic_raining_cloudy)
+                            HourlyForecast()
+
+                            Text(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 15.dp,
+                                    bottom = 15.dp
+                                ),
+                                text = "Daily forecast",
+                                color = Blue,
+                                fontSize = 20.sp
+                            )
+
+                            DailyForecast(id = R.drawable.ic_raining_cloudy)
+                        }
+
                     }
 
                 }
 
-
             }
-
-
         }
     }
 
