@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
@@ -50,30 +51,30 @@ import com.example.applabtest.presentation.theme.Yellow_1
 
 @Composable
 fun SideMenu(
-    onMenuClick: (String) -> Unit
+    selectedLanguage: String,
+    onMenuClick: (String) -> Unit,
+    onLanguageChanged: (String) -> Unit
 ) {
-
-    var selectedTab by remember { mutableStateOf("EN") }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val menuItems = listOf(
-        "Dashboard",
-        "Weather News",
-        "Rain Radar",
-        "Weather Maps",
-        "Weather Stations",
-        "Notifications Center",
-        "Monthly Reports",
-        "Worldwide Cities",
-        "About Us",
-        "Settings",
-        "Contact Us",
-        "Disclaimer"
+        stringResource(R.string.menu_dashboard),
+        stringResource(R.string.menu_weather_news),
+        stringResource(R.string.menu_rain_radar),
+        stringResource(R.string.menu_weather_maps),
+        stringResource(R.string.menu_weather_stations),
+        stringResource(R.string.menu_notifications_center),
+        stringResource(R.string.menu_monthly_reports),
+        stringResource(R.string.menu_worldwide_cities),
+        stringResource(R.string.menu_about_us),
+        stringResource(R.string.menu_settings),
+        stringResource(R.string.menu_contact_us),
+        stringResource(R.string.menu_disclaimer)
     )
 
     Box(
         modifier = Modifier
-            .width(screenWidth * 0.75f) // ✅ drawer takes 75% of screen
+            .width(screenWidth * 0.75f)
             .fillMaxHeight(),
         contentAlignment = Alignment.BottomCenter
     ){
@@ -109,7 +110,7 @@ fun SideMenu(
 
 
             Text(
-                text = "Menu",
+                text = stringResource(R.string.menu),
                 color = Yellow_1,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
@@ -132,8 +133,8 @@ fun SideMenu(
             }
 
             LanguageTabSelector(
-                selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it },
+                selectedTab = selectedLanguage,
+                onTabSelected = onLanguageChanged,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 10.dp)
                     .width(120.dp)
@@ -150,7 +151,7 @@ fun SideMenu(
                 )
 
                 Text(
-                    text = "Share app",
+                    text = stringResource(R.string.menu_share_app),
                     fontSize = 15.sp,
                     color = Color.White,
                     modifier = Modifier
@@ -262,6 +263,10 @@ private fun TabItem(
 @Composable
 fun SideMenuPreview() {
     AppLabTestTheme {
-        SideMenu(onMenuClick = {})
+        SideMenu(
+            selectedLanguage = "EN",
+            onMenuClick = {},
+            onLanguageChanged = {}
+        )
     }
 }

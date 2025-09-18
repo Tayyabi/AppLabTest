@@ -3,19 +3,19 @@ package com.example.applabtest.presentation.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.applabtest.domain.model.City
-import com.example.applabtest.domain.model.WeatherData
-import com.example.applabtest.domain.model.DailyWeather
 import com.example.applabtest.domain.model.HourlyWeather
+import com.example.applabtest.domain.model.WeatherData
 import com.example.applabtest.domain.usecase.GetCitiesUseCase
 import com.example.applabtest.domain.usecase.GetCurrentWeatherUseCase
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.example.applabtest.data.preferences.LanguagePreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 data class WeatherUiState(
@@ -24,17 +24,33 @@ data class WeatherUiState(
     val selectedCity: City? = null,
     val weatherData: WeatherData? = null,
     val selectedDateIndex: Int = 0, // Index in dailyForecast (0 = current day)
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val selectedLanguage: String = "EN"
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCitiesUseCase: GetCitiesUseCase,
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val languagePreferences: LanguagePreferences
 ) : ViewModel()  {
 
     private val _uiState = MutableStateFlow(WeatherUiState())
     val uiState: StateFlow<WeatherUiState> = _uiState.asStateFlow()
+
+    init {
+        loadSavedLanguage()
+    }
+
+    private fun loadSavedLanguage() {
+        val savedLanguage = languagePreferences.getLanguage()
+        _uiState.value = _uiState.value.copy(selectedLanguage = savedLanguage)
+    }
+
+    fun changeLanguage(languageCode: String) {
+        languagePreferences.setLanguage(languageCode)
+        _uiState.value = _uiState.value.copy(selectedLanguage = languageCode)
+    }
 
     fun loadCities() {
         viewModelScope.launch {

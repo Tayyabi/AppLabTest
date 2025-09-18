@@ -1,3 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">تطبيق المختبر</string>
+
+    <!-- Location and titles -->
+    <string name="location_al_shamal_qatar">الشمال، قطر</string>
+    <string name="detailed_forecast">التوقعات التفصيلية</string>
+    <string name="hourly_forecast">توقعات كل ساعة</string>
+    <string name="daily_forecast">التوقعات اليومية</string>
+
+    <!-- Weather information -->
+    <string name="humidity">الرطوبة</string>
+    <string name="uv_index">مؤشر الأشعة فوق البنفسجية</string>
+    <string name="pressure">الضغط</string>
+    <string name="visibility">الرؤية</string>
+    <string name="precipitation">هطول الأمطار</string>
+    <string name="wind_direction_ne">شمال شرق</string>
+    <string name="wind_speed_kmh">%s كم/س</string>
+    <string name="temperature_celsius">%s°م</string>
+    <string name="temperature_range">%s°/%s°م</string>
+
+    <!-- Weather conditions -->
+    <string name="partially_cloudy">غائم جزئياً</string>
+    <string name="feels_like">يشعر وكأنه %s°</string>
+    <string name="clear">صافي</string>
+
+    <!-- Warning messages -->
+    <string name="thunderstorm_warning">من المحتمل أن تستمر العواصف الرعدية لعدة ساعات قادمة</string>
+
+    <!-- Days of week -->
+    <string name="saturday">السبت</string>
+    <string name="sunday">الأحد</string>
+    <string name="monday">الاثنين</string>
+
+    <!-- Time labels -->
+    <string name="now">الآن</string>
+    <string name="time_12_pm">12 م</string>
+    <string name="time_1_pm">1 م</string>
+    <string name="time_2_pm">2 م</string>
+
+    <!-- Content descriptions -->
+    <string name="content_desc_location_dropdown">قائمة المواقع المنسدلة</string>
+    <string name="content_desc_menu">القائمة</string>
+    <string name="content_desc_precipitation">هطول الأمطار</string>
+    <string name="content_desc_wind_direction">اتجاه الرياح شمال شرق</string>
+    <string name="content_desc_wind_speed">سرعة الرياح</string>
+    <string name="content_desc_warning">تحذير</string>
+    <string name="content_desc_high_temp">درجة الحرارة العالية</string>
+    <string name="content_desc_low_temp">درجة الحرارة المنخفضة</string>
+    <string name="content_desc_clouds">الغيوم</string>
+    <string name="content_desc_weather_condition">حالة الطقس</string>
+    <string name="content_desc_previous_date">التاريخ السابق</string>
+    <string name="content_desc_next_date">التاريخ التالي</string>
+
+    <!-- Menu items -->
+    <string name="menu_dashboard">لوحة التحكم</string>
+    <string name="menu_weather_news">أخبار الطقس</string>
+    <string name="menu_rain_radar">رادار المطر</string>
+    <string name="menu_weather_maps">خرائط الطقس</string>
+    <string name="menu_weather_stations">محطات الطقس</string>
+    <string name="menu_notifications_center">مركز الإشعارات</string>
+    <string name="menu_monthly_reports">التقارير الشهرية</string>
+    <string name="menu_worldwide_cities">المدن العالمية</string>
+    <string name="menu_about_us">من نحن</string>
+    <string name="menu_settings">الإعدادات</string>
+    <string name="menu_contact_us">اتصل بنا</string>
+    <string name="menu_disclaimer">إخلاء المسؤولية</string>
+    <string name="menu_share_app">مشاركة التطبيق</string>
+    <string name="menu">القائمة</string>
 </resources>

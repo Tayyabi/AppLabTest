@@ -39,14 +39,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.applabtest.R
+import com.example.applabtest.core.utils.LocaleHelper
 import com.example.applabtest.domain.model.City
 import com.example.applabtest.presentation.theme.AppLabTestTheme
 import com.example.applabtest.presentation.theme.Blue
@@ -64,7 +68,9 @@ import com.example.applabtest.presentation.ui.home.components.ThunderWarning
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreenRoot() {
+fun HomeScreenRoot(
+    onLanguageChanged: (String) -> Unit = {}
+) {
     val viewModel: HomeViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
 
@@ -86,6 +92,10 @@ fun HomeScreenRoot() {
         },
         onNextDay = {
             viewModel.navigateToNextDay()
+        },
+        onLanguageChanged = { languageCode ->
+            viewModel.changeLanguage(languageCode)
+            onLanguageChanged(languageCode)
         }
     )
 }
@@ -100,8 +110,15 @@ fun HomeScreen(
     canNavigateForward: Boolean = false,
     onCitySelected: (City) -> Unit = {},
     onPreviousDay: () -> Unit = {},
-    onNextDay: () -> Unit = {}
+    onNextDay: () -> Unit = {},
+    onLanguageChanged: (String) -> Unit = {}
 ) {
+    // Determine layout direction based on selected language
+    val layoutDirection = if (LocaleHelper.isRTL(uiState.selectedLanguage)) {
+        LayoutDirection.Rtl
+    } else {
+        LayoutDirection.Ltr
+    }
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val bottomSheetState = rememberStandardBottomSheetState(
@@ -115,12 +132,24 @@ fun HomeScreen(
 
     var selectedCity by remember { mutableStateOf<City?>(null) }
 
-    DismissibleNavigationDrawer(
+    // Close drawer when language changes
+    LaunchedEffect(uiState.selectedLanguage) {
+        if (drawerState.isOpen) {
+            drawerState.close()
+        }
+    }
+
+    CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
+        DismissibleNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            SideMenu { selected ->
-                scope.launch { drawerState.close() }
-            }
+            SideMenu(
+                selectedLanguage = uiState.selectedLanguage,
+                onMenuClick = { selected ->
+                    scope.launch { drawerState.close() }
+                },
+                onLanguageChanged = onLanguageChanged
+            )
         }
     ) {
         BottomSheetScaffold(
@@ -352,6 +381,7 @@ fun HomeScreen(
                 }
             }
         }
+    }
     }
 }
 

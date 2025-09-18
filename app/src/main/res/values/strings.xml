@@ -50,4 +50,20 @@
     <string name="content_desc_weather_condition">Weather condition</string>
     <string name="content_desc_previous_date">Previous date</string>
     <string name="content_desc_next_date">Next date</string>
+
+    <!-- Menu items -->
+    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_weather_news">Weather News</string>
+    <string name="menu_rain_radar">Rain Radar</string>
+    <string name="menu_weather_maps">Weather Maps</string>
+    <string name="menu_weather_stations">Weather Stations</string>
+    <string name="menu_notifications_center">Notifications Center</string>
+    <string name="menu_monthly_reports">Monthly Reports</string>
+    <string name="menu_worldwide_cities">Worldwide Cities</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_contact_us">Contact Us</string>
+    <string name="menu_disclaimer">Disclaimer</string>
+    <string name="menu_share_app">Share app</string>
+    <string name="menu">Menu</string>
 </resources>
