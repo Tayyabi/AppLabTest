@@ -72,7 +72,7 @@ fun LocationBottomSheetContent(
         modifier = Modifier
             .padding(bottom = insets.calculateBottomPadding())
             .fillMaxWidth()
-            .height(screenHeight * 0.95f)
+            .height(screenHeight * 0.90f)
             .background(Color.White)
     ) {
         Row(

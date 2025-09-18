@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.applabtest.core.utils.LocaleHelper
-import com.example.applabtest.data.preferences.LanguagePreferences
+import com.example.applabtest.data.local.preferences.LanguagePreferences
 import com.example.applabtest.presentation.theme.AppLabTestTheme
 import com.example.applabtest.presentation.ui.home.HomeScreenRoot
 import javax.inject.Inject

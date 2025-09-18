@@ -1,6 +1,6 @@
 package com.example.applabtest.domain.usecase
 
-import com.example.applabtest.data.preferences.LanguagePreferences
+import com.example.applabtest.data.local.preferences.LanguagePreferences
 import javax.inject.Inject
 
 class GetLanguagePreferenceUseCase @Inject constructor(

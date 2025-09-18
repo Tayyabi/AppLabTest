@@ -1,4 +1,4 @@
-package com.example.applabtest.data.preferences
+package com.example.applabtest.data.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
