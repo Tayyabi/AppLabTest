@@ -2,8 +2,8 @@ package com.example.applabtest.di
 
 import com.example.applabtest.data.remote.api.NetworkModule
 import com.example.applabtest.data.remote.api.WeatherApiService
-import com.example.applabtest.data.repository.WeatherRepository
 import com.example.applabtest.data.repository.WeatherRepositoryImpl
+import com.example.applabtest.domain.repositories.WeatherRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

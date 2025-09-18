@@ -7,7 +7,10 @@ import com.example.applabtest.domain.model.HourlyWeather
 import com.example.applabtest.domain.model.WeatherData
 import com.example.applabtest.domain.usecase.GetCitiesUseCase
 import com.example.applabtest.domain.usecase.GetCurrentWeatherUseCase
-import com.example.applabtest.data.preferences.LanguagePreferences
+import com.example.applabtest.domain.usecase.GetLanguagePreferenceUseCase
+import com.example.applabtest.domain.usecase.SetLanguagePreferenceUseCase
+import com.example.applabtest.domain.usecase.FormatDateUseCase
+import com.example.applabtest.domain.usecase.GetWeatherDataForDateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +35,10 @@ data class WeatherUiState(
 class HomeViewModel @Inject constructor(
     private val getCitiesUseCase: GetCitiesUseCase,
     private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
-    private val languagePreferences: LanguagePreferences
+    private val getLanguagePreferenceUseCase: GetLanguagePreferenceUseCase,
+    private val setLanguagePreferenceUseCase: SetLanguagePreferenceUseCase,
+    private val formatDateUseCase: FormatDateUseCase,
+    private val getWeatherDataForDateUseCase: GetWeatherDataForDateUseCase
 ) : ViewModel()  {
 
     private val _uiState = MutableStateFlow(WeatherUiState())
@@ -43,12 +49,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadSavedLanguage() {
-        val savedLanguage = languagePreferences.getLanguage()
+        val savedLanguage = getLanguagePreferenceUseCase()
         _uiState.value = _uiState.value.copy(selectedLanguage = savedLanguage)
     }
 
     fun changeLanguage(languageCode: String) {
-        languagePreferences.setLanguage(languageCode)
+        setLanguagePreferenceUseCase(languageCode)
         _uiState.value = _uiState.value.copy(selectedLanguage = languageCode)
     }
 
@@ -134,27 +140,7 @@ class HomeViewModel @Inject constructor(
 
     fun getCurrentDateString(): String {
         val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> SimpleDateFormat("EEE, MMM dd", Locale.getDefault()).format(Date())
-            currentState.selectedDateIndex == 0 -> "Today"
-            currentState.selectedDateIndex == 1 -> "Tomorrow"
-            else -> {
-                val dailyWeather = currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-                dailyWeather?.date?.let { dateString ->
-                    // Parse and reformat the date from API
-                    try {
-                        val parts = dateString.split(", ")
-                        if (parts.size >= 3) {
-                            "${parts[0]}, ${parts[1]}"
-                        } else {
-                            dateString
-                        }
-                    } catch (e: Exception) {
-                        dateString
-                    }
-                } ?: SimpleDateFormat("EEE, MMM dd", Locale.getDefault()).format(Date())
-            }
-        }
+        return formatDateUseCase(currentState.weatherData, currentState.selectedDateIndex)
     }
 
     fun canNavigateForward(): Boolean {
@@ -167,94 +153,6 @@ class HomeViewModel @Inject constructor(
         return _uiState.value.selectedDateIndex > 0
     }
 
-    // Helper function to get current weather data based on selected date
-    fun getCurrentWeatherForSelectedDate(): Any? {
-        val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> null
-            currentState.selectedDateIndex == 0 -> currentState.weatherData.current
-            else -> {
-                // For future dates, use daily forecast data
-                currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-            }
-        }
-    }
-
-    // Helper function to get temperature data for selected date
-    fun getTemperatureForSelectedDate(): Triple<Double?, Double?, Double?> {
-        val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> Triple(null, null, null)
-            currentState.selectedDateIndex == 0 -> {
-                val current = currentState.weatherData.current
-                Triple(current.temperature, current.temperatureMin, current.temperatureMax)
-            }
-            else -> {
-                val daily = currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-                Triple(daily?.temperature, daily?.temperatureMin, daily?.temperatureMax)
-            }
-        }
-    }
-
-    // Helper function to get weather conditions for selected date
-    fun getWeatherConditionsForSelectedDate(): Pair<String?, String?> {
-        val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> Pair(null, null)
-            currentState.selectedDateIndex == 0 -> {
-                val current = currentState.weatherData.current
-                Pair(current.weatherType, current.temperatureUnit)
-            }
-            else -> {
-                val daily = currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-                Pair(daily?.weatherType, daily?.let { "°C" })
-            }
-        }
-    }
-
-    // Helper function to get wind data for selected date
-    fun getWindDataForSelectedDate(): Triple<Double?, String?, String?> {
-        val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> Triple(null, null, null)
-            currentState.selectedDateIndex == 0 -> {
-                val current = currentState.weatherData.current
-                Triple(current.windSpeed, current.windDirectionText, "m/s")
-            }
-            else -> {
-                val daily = currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-                Triple(daily?.windSpeed, null, "m/s")
-            }
-        }
-    }
-
-    // Helper function to get humidity and other data for selected date
-    fun getOtherDataForSelectedDate(): Map<String, String?> {
-        val currentState = _uiState.value
-        return when {
-            currentState.weatherData == null -> emptyMap()
-            currentState.selectedDateIndex == 0 -> {
-                val current = currentState.weatherData.current
-                mapOf(
-                    "humidity" to "${current.humidity}%",
-                    "pressure" to "${current.pressure} hPa",
-                    "visibility" to "${current.visibility / 1000} km",
-                    "uvIndex" to current.uvIndex,
-                    "rain" to "${current.rain}%"
-                )
-            }
-            else -> {
-                val daily = currentState.weatherData.dailyForecast.getOrNull(currentState.selectedDateIndex)
-                mapOf(
-                    "humidity" to daily?.let { "${it.humidity}%" },
-                    "pressure" to daily?.let { "${it.pressure} hPa" },
-                    "rain" to daily?.let { "${it.rain}%" }
-                )
-            }
-        }
-    }
-
-    // Get weather data for the currently selected date - this modifies the current weather to show selected date data
     fun getWeatherDataForSelectedDate(): WeatherData? {
         val currentState = _uiState.value
         val originalData = currentState.weatherData ?: return null
@@ -282,20 +180,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // Get hourly data for the currently selected date
     fun getHourlyDataForSelectedDate(): List<HourlyWeather> {
         val currentState = _uiState.value
-        val weatherData = currentState.weatherData ?: return emptyList()
-
-        return when (currentState.selectedDateIndex) {
-            0 -> {
-                // For current day, return the first day's hourly data if available
-                weatherData.hourlyData.firstOrNull()?.dayDetails ?: emptyList()
-            }
-            else -> {
-                // For future dates, get hourly data for the corresponding date
-                weatherData.hourlyData.getOrNull(currentState.selectedDateIndex)?.dayDetails ?: emptyList()
-            }
-        }
+        return getWeatherDataForDateUseCase.getHourlyDataForDate(
+            currentState.weatherData,
+            currentState.selectedDateIndex
+        )
     }
 }

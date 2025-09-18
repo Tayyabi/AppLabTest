@@ -1,6 +1,6 @@
 package com.example.applabtest.domain.usecase
 
-import com.example.applabtest.data.repository.WeatherRepository
+import com.example.applabtest.domain.repositories.WeatherRepository
 import com.example.applabtest.domain.model.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
