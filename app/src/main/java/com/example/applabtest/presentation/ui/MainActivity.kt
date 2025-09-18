@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import dagger.hilt.android.AndroidEntryPoint
 import com.example.applabtest.presentation.theme.AppLabTestTheme
 import com.example.applabtest.presentation.ui.home.HomeScreen
 
@@ -31,6 +32,7 @@ import com.example.applabtest.domain.model.City
 import com.example.applabtest.presentation.viewmodel.WeatherViewModel
 */
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

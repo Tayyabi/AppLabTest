@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -45,9 +46,14 @@ import com.example.applabtest.presentation.theme.Grey_7
 import com.example.applabtest.presentation.theme.Grey_8
 import com.example.applabtest.presentation.theme.Grey_9
 import com.example.applabtest.presentation.theme.Purple
+import com.example.applabtest.domain.model.City
 
 @Composable
 fun LocationBottomSheetContent(
+    cities: List<City> = emptyList(),
+    isLoading: Boolean = false,
+    errorMessage: String? = null,
+    onCitySelected: (City) -> Unit = {},
     onBackPressed: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf("Qatar") }
@@ -56,19 +62,9 @@ fun LocationBottomSheetContent(
     val screenHeight = configuration.screenHeightDp.dp
     val insets = WindowInsets.navigationBars.asPaddingValues()
 
-    val qatarCities = remember {
-        listOf(
-            "Al Shamal", "Doha", "Al Rayyan", "Al Wakrah", "Al Khor",
-            "Umm Salal", "Al Daayen", "Madinat ash Shamal"
-        )
-    }
-
-    val worldwideCities = remember {
-        listOf(
-            "New York", "London", "Paris", "Tokyo", "Sydney",
-            "Dubai", "Singapore", "Berlin", "Toronto", "Mumbai"
-        )
-    }
+    // Filter cities based on selected tab
+    val qatarCities = cities.filter { it.isQatar }
+    val worldwideCities = cities.filter { !it.isQatar }
 
     val currentCities = if (selectedTab == "Qatar") qatarCities else worldwideCities
 
@@ -168,22 +164,69 @@ fun LocationBottomSheetContent(
             Text(
                 text = if (selectedTab == "Qatar") "Qatar - Cities" else "Worldwide - Cities",
                 color = Color.Black,
+                fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 lineHeight = 16.sp
             )
         }
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-        ) {
-            itemsIndexed(currentCities) { index, city ->
-                CityListItem(
-                    city = city,
-                    onClick = { /* Handle city selection */ },
-                    showDivider = index < currentCities.size - 1
-                )
+        when {
+            isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(color = Purple)
+                }
+            }
+
+            errorMessage != null -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
+
+            currentCities.isEmpty() -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "No cities available",
+                        color = Grey_3,
+                        fontSize = 16.sp
+                    )
+                }
+            }
+
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    itemsIndexed(currentCities) { index, city ->
+                        CityListItem(
+                            city = city.name,
+                            onClick = { onCitySelected(city) },
+                            showDivider = index < currentCities.size - 1
+                        )
+                    }
+                }
             }
         }
     }

@@ -15,16 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.applabtest.presentation.theme.Grey_4
-import com.example.applabtest.presentation.theme.Purple
 
 @Composable
 fun CityListItem(
     city: String,
-    temperature: String = "25°C",
     onClick: () -> Unit,
     showDivider: Boolean = true
 ) {
@@ -41,13 +38,6 @@ fun CityListItem(
                 fontSize = 16.sp,
                 color = Color.Black,
                 modifier = Modifier.weight(1f)
-            )
-
-            Text(
-                text = temperature,
-                fontSize = 14.sp,
-                color = Purple,
-                fontWeight = FontWeight.Medium
             )
         }
 

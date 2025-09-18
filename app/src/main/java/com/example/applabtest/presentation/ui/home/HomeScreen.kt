@@ -39,7 +39,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.example.applabtest.R
+import com.example.applabtest.domain.model.City
 import com.example.applabtest.presentation.theme.AppLabTestTheme
 import com.example.applabtest.presentation.theme.Blue
 import com.example.applabtest.presentation.theme.Cloud_Burst
@@ -69,7 +77,14 @@ fun HomeScreen() {
     )
     val scope = rememberCoroutineScope()
 
+    val viewModel: HomeViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
+    var selectedCity by remember { mutableStateOf<City?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadCities()
+    }
 
     DismissibleNavigationDrawer(
         drawerState = drawerState,
@@ -85,6 +100,15 @@ fun HomeScreen() {
             sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
             sheetContent = {
                 LocationBottomSheetContent(
+                    cities = uiState.cities,
+                    isLoading = uiState.isLoading,
+                    errorMessage = uiState.errorMessage,
+                    onCitySelected = { city ->
+                        selectedCity = city
+                        scope.launch {
+                            scaffoldState.bottomSheetState.partialExpand()
+                        }
+                    },
                     onBackPressed = {
                         scope.launch {
                             scaffoldState.bottomSheetState.partialExpand()
@@ -126,7 +150,7 @@ fun HomeScreen() {
                             ) {
                                 Text(
                                     modifier = Modifier.weight(1f),
-                                    text = "Al Shamal, Qatar",
+                                    text = selectedCity?.name ?: "Select Your City",
                                     color = Color.White,
                                     fontSize = 14.sp,
                                     textAlign = TextAlign.Center
