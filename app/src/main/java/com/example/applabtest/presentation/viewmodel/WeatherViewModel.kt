@@ -7,18 +7,13 @@ import com.example.applabtest.domain.model.City
 import com.example.applabtest.domain.model.WeatherData
 import com.example.applabtest.domain.usecase.GetCitiesUseCase
 import com.example.applabtest.domain.usecase.GetCurrentWeatherUseCase
+import com.example.applabtest.presentation.ui.home.WeatherUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-data class WeatherUiState(
-    val isLoading: Boolean = false,
-    val cities: List<City> = emptyList(),
-    val selectedCity: City? = null,
-    val weatherData: WeatherData? = null,
-    val errorMessage: String? = null
-)
+
 
 class WeatherViewModel(
     private val getCitiesUseCase: GetCitiesUseCase,

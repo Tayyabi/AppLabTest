@@ -4,8 +4,9 @@ import com.example.applabtest.data.repository.WeatherRepository
 import com.example.applabtest.domain.model.CitiesResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GetCitiesUseCase(
+class GetCitiesUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
     suspend operator fun invoke(): Result<CitiesResponse> {

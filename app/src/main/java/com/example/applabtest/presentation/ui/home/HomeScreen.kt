@@ -26,6 +26,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -58,8 +60,16 @@ import kotlinx.coroutines.launch
 fun HomeScreen() {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val bottomSheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.PartiallyExpanded,
+        skipHiddenState = true
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = bottomSheetState
+    )
     val scope = rememberCoroutineScope()
+
+
 
     DismissibleNavigationDrawer(
         drawerState = drawerState,

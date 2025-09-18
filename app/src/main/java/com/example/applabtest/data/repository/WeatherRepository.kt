@@ -5,13 +5,14 @@ import com.example.applabtest.data.mapper.CityMapper
 import com.example.applabtest.data.mapper.WeatherMapper
 import com.example.applabtest.domain.model.CitiesResponse
 import com.example.applabtest.domain.model.WeatherResponse
+import javax.inject.Inject
 
 interface WeatherRepository {
     suspend fun getCities(): Result<CitiesResponse>
     suspend fun getCurrentWeather(cityId: Int): Result<WeatherResponse>
 }
 
-class WeatherRepositoryImpl(
+class WeatherRepositoryImpl @Inject constructor(
     private val apiService: WeatherApiService
 ) : WeatherRepository {
 
