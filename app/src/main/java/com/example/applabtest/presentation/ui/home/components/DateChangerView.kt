@@ -3,6 +3,7 @@ package com.example.applabtest.presentation.ui.home.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,13 @@ import com.example.applabtest.presentation.theme.Grey
 import com.example.applabtest.presentation.theme.Grey_1
 
 @Composable
-fun DateChangerView() {
+fun DateChangerView(
+    currentDate: String = "Today",
+    canNavigateBack: Boolean = true,
+    canNavigateForward: Boolean = true,
+    onPreviousClick: () -> Unit = {},
+    onNextClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,20 +46,21 @@ fun DateChangerView() {
             modifier = Modifier
                 .size(38.dp)
                 .background(
-                    color = Color.White,
+                    color = if (canNavigateBack) Color.White else Color.Gray.copy(alpha = 0.3f),
                     shape = CircleShape
                 )
                 .border(
                     width = 1.dp,
-                    color = Grey,
+                    color = if (canNavigateBack) Grey else Grey.copy(alpha = 0.5f),
                     shape = CircleShape
-                ),
+                )
+                .clickable(enabled = canNavigateBack) { onPreviousClick() },
             contentAlignment = Alignment.Center
         )
         {
             Image(
                 painter = painterResource(R.drawable.ic_keyboard_arrow_left),
-                contentDescription = "Back",
+                contentDescription = "Previous day",
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -77,7 +85,7 @@ fun DateChangerView() {
         ) {
             Text(
                 modifier = Modifier,
-                text = "19th May,2022",
+                text = currentDate,
                 color = Color.Black,
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center
@@ -92,20 +100,21 @@ fun DateChangerView() {
             modifier = Modifier
                 .size(38.dp)
                 .background(
-                    color = Color.White,
+                    color = if (canNavigateForward) Color.White else Color.Gray.copy(alpha = 0.3f),
                     shape = CircleShape
                 )
                 .border(
                     width = 1.dp,
-                    color = Grey,
+                    color = if (canNavigateForward) Grey else Grey.copy(alpha = 0.5f),
                     shape = CircleShape
-                ),
+                )
+                .clickable(enabled = canNavigateForward) { onNextClick() },
             contentAlignment = Alignment.Center
         )
         {
             Image(
                 painter = painterResource(R.drawable.ic_keyboard_arrow_right),
-                contentDescription = "Back",
+                contentDescription = "Next day",
                 modifier = Modifier.size(24.dp)
             )
         }

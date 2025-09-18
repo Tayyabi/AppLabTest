@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.applabtest.presentation.theme.AppLabTestTheme
-import com.example.applabtest.presentation.ui.home.HomeScreen
+import com.example.applabtest.presentation.ui.home.HomeScreenRoot
 
 // Commented imports for previous implementation
 /*
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppLabTestTheme {
                 // Using the new HomeScreen with bottom sheet city selection
-                HomeScreen()
+                HomeScreenRoot()
                 //SideMenu(onMenuClick = {})
 
                 // Previous navigation-based implementation (commented out)

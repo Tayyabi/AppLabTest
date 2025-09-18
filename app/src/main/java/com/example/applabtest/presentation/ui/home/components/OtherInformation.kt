@@ -19,9 +19,10 @@ import androidx.compose.ui.unit.sp
 import com.example.applabtest.R
 import com.example.applabtest.presentation.theme.Grey
 import com.example.applabtest.presentation.theme.Grey_3
+import com.example.applabtest.domain.model.WeatherData
 
 @Composable
-fun OtherInformation() {
+fun OtherInformation(weatherData: WeatherData? = null) {
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 10.dp)
@@ -57,7 +58,7 @@ fun OtherInformation() {
 
                 )
                 Text(
-                    text = "3%",
+                    text = weatherData?.current?.let { "${it.rain}%" } ?: "3%",
                     fontSize = 20.sp
                 )
             }
@@ -88,7 +89,7 @@ fun OtherInformation() {
 
             Column {
                 Text(
-                    text = "NE",
+                    text = weatherData?.current?.windDirectionText ?: "NE",
                     fontSize = 19.sp,
                     modifier = Modifier.padding(start = 6.dp)
                 )
@@ -120,7 +121,7 @@ fun OtherInformation() {
 
 
             Text(
-                text = "23.3\nkm/h",
+                text = weatherData?.current?.let { "${it.windSpeed}\nkm/h" } ?: "23.3\nkm/h",
                 fontSize = 16.sp,
                 lineHeight = 16.sp,
                 modifier = Modifier.padding(start = 6.dp)

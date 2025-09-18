@@ -26,10 +26,14 @@ import com.example.applabtest.presentation.theme.Grey
 import com.example.applabtest.presentation.theme.Grey_2
 import com.example.applabtest.presentation.theme.Purple
 import com.example.applabtest.presentation.theme.Purple_Blue
+import com.example.applabtest.domain.model.WeatherData
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
-fun TemperatureView() {
+fun TemperatureView(weatherData: WeatherData? = null) {
 
     Row(
         modifier = Modifier
@@ -47,20 +51,20 @@ fun TemperatureView() {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = "Al Shamal",
+                text = weatherData?.city?.name ?: "Al Shamal",
                 color = Purple,
                 fontSize = 24.sp,
                 lineHeight = 24.sp
             )
             Text(
-                text = "Thu, 19 May, 11:00 AM",
+                text = SimpleDateFormat("EEE, dd MMM, hh:mm a", Locale.getDefault()).format(Date()),
                 fontSize = 14.sp,
                 lineHeight = 14.sp,
                 color = Grey_2.copy(alpha = 0.5f)
             )
 
             Text(
-                text = "18°C",
+                text = weatherData?.current?.let { "${it.temperature.toInt()}${it.temperatureUnit}" } ?: "18°C",
                 color = Purple,
                 fontSize = 55.sp,
                 lineHeight = 55.sp,
@@ -69,14 +73,14 @@ fun TemperatureView() {
             )
 
             Text(
-                text = "Partially Cloudy",
+                text = weatherData?.current?.weatherType ?: "Partially Cloudy",
                 color = Color.Black,
                 fontSize = 22.sp,
                 lineHeight = 22.sp
             )
 
             Text(
-                text = "Feels like 15°",
+                text = weatherData?.current?.let { "Feels like ${it.feelsLike.toInt()}°" } ?: "Feels like 15°",
                 color = Purple_Blue,
                 fontSize = 16.sp,
                 lineHeight = 16.sp
@@ -112,7 +116,7 @@ fun TemperatureView() {
 
 
                 Text(
-                    text = "99°",
+                    text = weatherData?.current?.let { "${it.temperatureMax.toInt()}°" } ?: "99°",
                     fontSize = 25.sp,
                     lineHeight = 25.sp,
                     fontWeight = FontWeight(450),
@@ -135,7 +139,7 @@ fun TemperatureView() {
                 }
 
                 Text(
-                    text = "82°",
+                    text = weatherData?.current?.let { "${it.temperatureMin.toInt()}°" } ?: "82°",
                     fontSize = 25.sp,
                     lineHeight = 25.sp,
                     fontWeight = FontWeight(450),

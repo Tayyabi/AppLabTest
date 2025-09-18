@@ -63,9 +63,45 @@ import com.example.applabtest.presentation.ui.home.components.TemperatureView
 import com.example.applabtest.presentation.ui.home.components.ThunderWarning
 import kotlinx.coroutines.launch
 
+@Composable
+fun HomeScreenRoot() {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadCities()
+    }
+
+    HomeScreen(
+        uiState = uiState,
+        viewModel = viewModel,
+        currentDate = viewModel.getCurrentDateString(),
+        canNavigateBack = viewModel.canNavigateBackward(),
+        canNavigateForward = viewModel.canNavigateForward(),
+        onCitySelected = { city ->
+            viewModel.loadWeatherForCity(city)
+        },
+        onPreviousDay = {
+            viewModel.navigateToPreviousDay()
+        },
+        onNextDay = {
+            viewModel.navigateToNextDay()
+        }
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    uiState: WeatherUiState = WeatherUiState(),
+    viewModel: HomeViewModel? = null,
+    currentDate: String = "Today",
+    canNavigateBack: Boolean = false,
+    canNavigateForward: Boolean = false,
+    onCitySelected: (City) -> Unit = {},
+    onPreviousDay: () -> Unit = {},
+    onNextDay: () -> Unit = {}
+) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val bottomSheetState = rememberStandardBottomSheetState(
@@ -77,14 +113,7 @@ fun HomeScreen() {
     )
     val scope = rememberCoroutineScope()
 
-    val viewModel: HomeViewModel = hiltViewModel()
-    val uiState by viewModel.uiState.collectAsState()
-
     var selectedCity by remember { mutableStateOf<City?>(null) }
-
-    LaunchedEffect(Unit) {
-        viewModel.loadCities()
-    }
 
     DismissibleNavigationDrawer(
         drawerState = drawerState,
@@ -105,6 +134,7 @@ fun HomeScreen() {
                     errorMessage = uiState.errorMessage,
                     onCitySelected = { city ->
                         selectedCity = city
+                        onCitySelected(city)
                         scope.launch {
                             scaffoldState.bottomSheetState.partialExpand()
                         }
@@ -238,7 +268,13 @@ fun HomeScreen() {
                                 .padding(vertical = 8.dp)
                         ) {
 
-                            DateChangerView()
+                            DateChangerView(
+                                currentDate = currentDate,
+                                canNavigateBack = canNavigateBack,
+                                canNavigateForward = canNavigateForward,
+                                onPreviousClick = onPreviousDay,
+                                onNextClick = onNextDay
+                            )
 
                             Column(
                                 modifier = Modifier
@@ -246,9 +282,13 @@ fun HomeScreen() {
                                     .verticalScroll(rememberScrollState())
                             ) {
 
-                                TemperatureView()
+                                TemperatureView(weatherData = uiState.weatherData?.let {
+                                    viewModel?.getWeatherDataForSelectedDate()
+                                })
 
-                                OtherInformation()
+                                OtherInformation(weatherData = uiState.weatherData?.let {
+                                    viewModel?.getWeatherDataForSelectedDate()
+                                })
 
                                 ThunderWarning()
 
@@ -257,25 +297,25 @@ fun HomeScreen() {
                                 OtherFields(
                                     id = R.drawable.ic_humidity,
                                     title = "Humidity",
-                                    value = "34%"
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.humidity}%" } ?: "34%"
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_sun,
                                     title = "UV Index",
-                                    value = "High 7"
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.uvIndex ?: "High 7"
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_pressure,
                                     title = "Pressure",
-                                    value = "29.8 IN"
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.pressure} hPa" } ?: "29.8 IN"
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_visibility,
                                     title = "Visibility",
-                                    value = "10 mi",
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.visibility / 1000} km" } ?: "10 mi",
                                     isLast = true
                                 )
 
