@@ -67,4 +67,65 @@
     <string name="menu_disclaimer">إخلاء المسؤولية</string>
     <string name="menu_share_app">مشاركة التطبيق</string>
     <string name="menu">القائمة</string>
+
+    <!-- Main screen texts -->
+    <string name="select_your_city">اختر مدينتك</string>
+    <string name="today">اليوم</string>
+    <string name="tomorrow">غداً</string>
+
+    <!-- Weather units and values -->
+    <string name="celsius_unit">°م</string>
+    <string name="high_uv_index">عالي 7</string>
+    <string name="pressure_unit">هكتوباسكال</string>
+    <string name="distance_unit_km">كم</string>
+    <string name="distance_unit_mi">ميل</string>
+    <string name="wind_speed_unit">كم/س</string>
+    <string name="wind_speed_ms">م/ث</string>
+    <string name="percentage">%</string>
+
+    <!-- Default weather values -->
+    <string name="default_humidity">34%</string>
+    <string name="default_pressure">29.8 بوصة</string>
+    <string name="default_visibility">10 ميل</string>
+    <string name="default_wind_speed">23.3\nكم/س</string>
+    <string name="default_precipitation">3%</string>
+    <string name="default_location">اختر المدينة</string>
+    <string name="default_temperature">18°م</string>
+    <string name="default_feels_like">يشعر وكأنه 15°</string>
+
+    <!-- Location related -->
+    <string name="qatar">قطر</string>
+    <string name="worldwide">عالمياً</string>
+    <string name="qatar_cities">قطر - المدن</string>
+    <string name="worldwide_cities">عالمياً - المدن</string>
+    <string name="add_city">إضافة مدينة</string>
+    <string name="back">رجوع</string>
+    <string name="no_cities_available">لا توجد مدن متاحة</string>
+
+    <!-- Error messages -->
+    <string name="failed_to_load_cities">فشل في تحميل المدن</string>
+    <string name="failed_to_load_weather">فشل في تحميل بيانات الطقس</string>
+    <string name="unknown_error">حدث خطأ غير معروف</string>
+
+    <!-- Language codes -->
+    <string name="lang_english">EN</string>
+    <string name="lang_arabic">AR</string>
+
+    <!-- Content descriptions -->
+    <string name="clouds_header">رأس الغيوم</string>
+    <string name="side_menu_bottom">أسفل القائمة الجانبية</string>
+    <string name="search">بحث</string>
+    <string name="audio">صوت</string>
+    <string name="tab_indicator">مؤشر التبويب</string>
+
+    <!-- Date patterns and formats -->
+    <string name="day_format">اليوم %d</string>
+    <string name="temp_format">%d°م</string>
+    <string name="temp_range_format">%d°/%d°م</string>
+    <string name="wind_format">%s\n%s</string>
+    <string name="feels_like_format">يشعر وكأنه %d°</string>
+    <string name="humidity_format">%d%%</string>
+    <string name="pressure_format">%.1f %s</string>
+    <string name="visibility_format">%.1f %s</string>
+    <string name="rain_format">%d%%</string>
 </resources>

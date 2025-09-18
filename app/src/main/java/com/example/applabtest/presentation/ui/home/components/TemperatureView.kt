@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +52,7 @@ fun TemperatureView(weatherData: WeatherData? = null) {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = weatherData?.city?.name ?: "Al Shamal",
+                text = weatherData?.city?.name ?: stringResource(R.string.default_location),
                 color = Purple,
                 fontSize = 24.sp,
                 lineHeight = 24.sp
@@ -64,7 +65,7 @@ fun TemperatureView(weatherData: WeatherData? = null) {
             )
 
             Text(
-                text = weatherData?.current?.let { "${it.temperature.toInt()}${it.temperatureUnit}" } ?: "18°C",
+                text = weatherData?.current?.let { "${it.temperature.toInt()}${it.temperatureUnit}" } ?: stringResource(R.string.default_temperature),
                 color = Purple,
                 fontSize = 55.sp,
                 lineHeight = 55.sp,

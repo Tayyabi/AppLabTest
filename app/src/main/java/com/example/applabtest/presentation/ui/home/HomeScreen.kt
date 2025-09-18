@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.applabtest.R
 import com.example.applabtest.core.utils.LocaleHelper
@@ -209,7 +210,7 @@ fun HomeScreen(
                             ) {
                                 Text(
                                     modifier = Modifier.weight(1f),
-                                    text = selectedCity?.name ?: "Select Your City",
+                                    text = selectedCity?.name ?: stringResource(R.string.select_your_city),
                                     color = Color.White,
                                     fontSize = 14.sp,
                                     textAlign = TextAlign.Center
@@ -235,7 +236,7 @@ fun HomeScreen(
                             }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_side_menu),
-                                    contentDescription = "Menu",
+                                    contentDescription = stringResource(R.string.content_desc_menu),
                                     tint = Color.White,
                                     modifier = Modifier.size(25.dp)
                                 )
@@ -278,7 +279,7 @@ fun HomeScreen(
 
                         Text(
                             modifier = Modifier.padding(start = 16.dp, top = 5.dp),
-                            text = "Detailed Forecast",
+                            text = stringResource(R.string.detailed_forecast),
                             color = Color.White,
                             fontSize = 20.sp
                         )
@@ -325,32 +326,32 @@ fun HomeScreen(
 
                                 OtherFields(
                                     id = R.drawable.ic_humidity,
-                                    title = "Humidity",
-                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.humidity}%" } ?: "34%"
+                                    title = stringResource(R.string.humidity),
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.humidity}%" } ?: stringResource(R.string.default_humidity)
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_sun,
-                                    title = "UV Index",
-                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.uvIndex ?: "High 7"
+                                    title = stringResource(R.string.uv_index),
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.uvIndex ?: stringResource(R.string.high_uv_index)
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_pressure,
-                                    title = "Pressure",
-                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.pressure} hPa" } ?: "29.8 IN"
+                                    title = stringResource(R.string.pressure),
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.pressure} ${stringResource(R.string.pressure_unit)}" } ?: stringResource(R.string.default_pressure)
                                 )
 
                                 OtherFields(
                                     id = R.drawable.ic_visibility,
-                                    title = "Visibility",
-                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.visibility / 1000} km" } ?: "10 mi",
+                                    title = stringResource(R.string.visibility),
+                                    value = (uiState.weatherData?.let { viewModel?.getWeatherDataForSelectedDate() })?.current?.let { "${it.visibility / 1000} ${stringResource(R.string.distance_unit_km)}" } ?: stringResource(R.string.default_visibility),
                                     isLast = true
                                 )
 
                                 Text(
                                     modifier = Modifier.padding(start = 16.dp, top = 15.dp),
-                                    text = "Hourly forecast ",
+                                    text = stringResource(R.string.hourly_forecast),
                                     color = Blue,
                                     fontSize = 20.sp
                                 )
@@ -367,7 +368,7 @@ fun HomeScreen(
                                         top = 15.dp,
                                         bottom = 15.dp
                                     ),
-                                    text = "Daily forecast",
+                                    text = stringResource(R.string.daily_forecast),
                                     color = Blue,
                                     fontSize = 20.sp
                                 )

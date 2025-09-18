@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.applabtest.R
@@ -35,7 +36,7 @@ fun ThunderWarning() {
         )
 
         Text(
-            text = "Thunderstorms likely to continue for the next several hours",
+            text = stringResource(R.string.thunderstorm_warning),
             color = Purple,
             fontSize = 15.sp,
             lineHeight = 17.sp,

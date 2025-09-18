@@ -101,7 +101,7 @@ fun SideMenu(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_clouds), // replace with your image
-                    contentDescription = "Clouds Header",
+                    contentDescription = stringResource(R.string.clouds_header),
                     modifier = Modifier.size(130.dp)
                 )
             }
@@ -163,7 +163,7 @@ fun SideMenu(
 
         Image(
             painter = painterResource(R.drawable.ic_side_menu_bottom),
-            contentDescription = "",
+            contentDescription = stringResource(R.string.side_menu_bottom),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxWidth()
         )
@@ -185,7 +185,7 @@ private fun LanguageTabSelector(
     val indicatorOffset by animateFloatAsState(
         targetValue = if (selectedTab == "EN") 0f else 1f,
         animationSpec = tween(300),
-        label = "Tab Indicator"
+        label = stringResource(R.string.tab_indicator)
     )
 
     val tabOffsetDp by remember {
@@ -221,14 +221,14 @@ private fun LanguageTabSelector(
 
         Row(modifier = Modifier.fillMaxWidth()) {
             TabItem(
-                text = "EN",
+                text = stringResource(R.string.lang_english),
                 isSelected = selectedTab == "EN",
                 onClick = { onTabSelected("EN") },
                 modifier = Modifier.weight(1f)
             )
 
             TabItem(
-                text = "AR",
+                text = stringResource(R.string.lang_arabic),
                 isSelected = selectedTab == "AR",
                 onClick = { onTabSelected("AR") },
                 modifier = Modifier.weight(1f)

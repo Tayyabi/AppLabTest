@@ -66,4 +66,65 @@
     <string name="menu_disclaimer">Disclaimer</string>
     <string name="menu_share_app">Share app</string>
     <string name="menu">Menu</string>
+
+    <!-- Main screen texts -->
+    <string name="select_your_city">Select Your City</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+
+    <!-- Weather units and values -->
+    <string name="celsius_unit">°C</string>
+    <string name="high_uv_index">High 7</string>
+    <string name="pressure_unit">hPa</string>
+    <string name="distance_unit_km">km</string>
+    <string name="distance_unit_mi">mi</string>
+    <string name="wind_speed_unit">km/h</string>
+    <string name="wind_speed_ms">m/s</string>
+    <string name="percentage">%</string>
+
+    <!-- Default weather values -->
+    <string name="default_humidity">34%</string>
+    <string name="default_pressure">29.8 IN</string>
+    <string name="default_visibility">10 mi</string>
+    <string name="default_wind_speed">23.3\nkm/h</string>
+    <string name="default_precipitation">3%</string>
+    <string name="default_location">Select City</string>
+    <string name="default_temperature">18°C</string>
+    <string name="default_feels_like">Feels like 15°</string>
+
+    <!-- Location related -->
+    <string name="qatar">Qatar</string>
+    <string name="worldwide">Worldwide</string>
+    <string name="qatar_cities">Qatar - Cities</string>
+    <string name="worldwide_cities">Worldwide - Cities</string>
+    <string name="add_city">Add City</string>
+    <string name="back">Back</string>
+    <string name="no_cities_available">No cities available</string>
+
+    <!-- Error messages -->
+    <string name="failed_to_load_cities">Failed to load cities</string>
+    <string name="failed_to_load_weather">Failed to load weather data</string>
+    <string name="unknown_error">Unknown error occurred</string>
+
+    <!-- Language codes -->
+    <string name="lang_english">EN</string>
+    <string name="lang_arabic">AR</string>
+
+    <!-- Content descriptions -->
+    <string name="clouds_header">Clouds Header</string>
+    <string name="side_menu_bottom">Side menu bottom</string>
+    <string name="search">Search</string>
+    <string name="audio">Audio</string>
+    <string name="tab_indicator">Tab Indicator</string>
+
+    <!-- Date patterns and formats -->
+    <string name="day_format">Day %d</string>
+    <string name="temp_format">%d°C</string>
+    <string name="temp_range_format">%d°/%d°C</string>
+    <string name="wind_format">%s\n%s</string>
+    <string name="feels_like_format">Feels like %d°</string>
+    <string name="humidity_format">%d%%</string>
+    <string name="pressure_format">%.1f %s</string>
+    <string name="visibility_format">%.1f %s</string>
+    <string name="rain_format">%d%%</string>
 </resources>
