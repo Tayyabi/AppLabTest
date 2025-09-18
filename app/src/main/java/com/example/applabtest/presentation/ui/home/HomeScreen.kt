@@ -326,7 +326,11 @@ fun HomeScreen(
                                     fontSize = 20.sp
                                 )
 
-                                HourlyForecast()
+                                HourlyForecast(
+                                    hourlyData = uiState.weatherData?.let {
+                                        viewModel?.getHourlyDataForSelectedDate()
+                                    } ?: emptyList()
+                                )
 
                                 Text(
                                     modifier = Modifier.padding(
@@ -339,7 +343,9 @@ fun HomeScreen(
                                     fontSize = 20.sp
                                 )
 
-                                DailyForecast(id = R.drawable.ic_raining_cloudy)
+                                DailyForecast(
+                                    dailyWeatherList = uiState.weatherData?.dailyForecast ?: emptyList()
+                                )
                             }
                         }
                     }

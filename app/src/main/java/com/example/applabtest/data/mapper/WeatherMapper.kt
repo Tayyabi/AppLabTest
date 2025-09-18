@@ -13,7 +13,8 @@ object WeatherMapper {
             weatherData = WeatherData(
                 city = result.toCityDomain(),
                 current = result.currentWeather.toDomain(),
-                dailyForecast = result.dailyWeather?.take(7)?.map { it.toDomain() } ?: emptyList()
+                dailyForecast = result.dailyWeather?.take(7)?.map { it.toDomain() } ?: emptyList(),
+                hourlyData = result.hourlyData?.map { it.toDomain() } ?: emptyList()
             )
         )
     }
@@ -69,6 +70,41 @@ object WeatherMapper {
             windSpeed = this.windSpeed,
             clouds = this.clouds,
             rain = this.rain
+        )
+    }
+
+    private fun HourlyDataDto.toDomain(): HourlyWeatherDay {
+        return HourlyWeatherDay(
+            date = this.date,
+            dayDetails = this.dayDetails?.map { it.toDomain() } ?: emptyList()
+        )
+    }
+
+    private fun HourlyDetailDto.toDomain(): HourlyWeather {
+        return HourlyWeather(
+            time = this.time,
+            temperature = this.temperature,
+            humidity = this.humidity,
+            weatherType = this.weatherType,
+            weatherTypeAr = this.weatherTypeAr,
+            warningText = this.warningText,
+            warningTextAr = this.warningTextAr,
+            weatherIcon = this.weatherIcon,
+            timestamp = this.timestamp,
+            timeHrQatar = this.timeHrQatar,
+            timeHrUtc = this.timeHrUtc,
+            windPower = this.windPower,
+            windDirection = this.windDirection,
+            windDirectionText = this.windDirectionText,
+            rain = this.rain,
+            pressure = this.pressure,
+            visibility = this.visibility,
+            visibilityUnit = this.visibilityUnit,
+            pressureUnit = this.pressureUnit,
+            rainUnit = this.rainUnit,
+            humidityUnit = this.humidityUnit,
+            temperatureUnit = this.temperatureUnit,
+            windPowerUnit = this.windPowerUnit
         )
     }
 }

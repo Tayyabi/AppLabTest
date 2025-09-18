@@ -91,7 +91,7 @@ data class CurrentWeatherDto(
     @SerializedName("pressure_unit")
     val pressureUnit: String,
     @SerializedName("rain")
-    val rain: Int,
+    val rain: Double,
     @SerializedName("rain_unit")
     val rainUnit: String,
     @SerializedName("uv_index")
@@ -120,7 +120,7 @@ data class DailyWeatherDto(
     @SerializedName("clouds")
     val clouds: Int,
     @SerializedName("rain")
-    val rain: Int,
+    val rain: Double,
     @SerializedName("timestamp")
     val timestamp: Long,
     @SerializedName("date")
@@ -138,25 +138,47 @@ data class HourlyDetailDto(
     @SerializedName("time")
     val time: String,
     @SerializedName("temperature")
-    val temperature: Int,
+    val temperature: Double,
     @SerializedName("humidity")
     val humidity: Int,
     @SerializedName("weather_type")
     val weatherType: String,
     @SerializedName("weather_type_ar")
     val weatherTypeAr: String?,
+    @SerializedName("warning_text")
+    val warningText: String?,
+    @SerializedName("warning_text_ar")
+    val warningTextAr: String?,
     @SerializedName("weather_icon")
     val weatherIcon: String?,
     @SerializedName("timestamp")
     val timestamp: Long,
     @SerializedName("time_hr_qatar")
-    val timeHrQatar: String,
+    val timeHrQatar: String?,
+    @SerializedName("time_hr_utc")
+    val timeHrUtc: String?,
     @SerializedName("wind_power")
-    val windPower: Int,
+    val windPower: Double,
     @SerializedName("wind_direction")
     val windDirection: Int,
+    @SerializedName("wind_direction_text")
+    val windDirectionText: String?,
+    @SerializedName("rain")
+    val rain: Double,
     @SerializedName("pressure")
     val pressure: Int,
     @SerializedName("visibility")
-    val visibility: Int
+    val visibility: Int,
+    @SerializedName("visibility_unit")
+    val visibilityUnit: String,
+    @SerializedName("pressure_unit")
+    val pressureUnit: String,
+    @SerializedName("rain_unit")
+    val rainUnit: String,
+    @SerializedName("humidity_unit")
+    val humidityUnit: String,
+    @SerializedName("temperature_unit")
+    val temperatureUnit: String,
+    @SerializedName("wind_power_unit")
+    val windPowerUnit: String
 )

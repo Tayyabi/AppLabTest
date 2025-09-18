@@ -8,7 +8,8 @@ data class WeatherResponse(
 data class WeatherData(
     val city: WeatherCity,
     val current: CurrentWeather,
-    val dailyForecast: List<DailyWeather>
+    val dailyForecast: List<DailyWeather>,
+    val hourlyData: List<HourlyWeatherDay>
 )
 
 data class WeatherCity(
@@ -39,7 +40,7 @@ data class CurrentWeather(
     val weatherTypeAr: String?,
     val weatherIcon: String?,
     val clouds: Int,
-    val rain: Int,
+    val rain: Double,
     val sunrise: Long,
     val sunset: Long
 )
@@ -56,5 +57,36 @@ data class DailyWeather(
     val pressure: Int,
     val windSpeed: Double,
     val clouds: Int,
-    val rain: Int
+    val rain: Double
+)
+
+data class HourlyWeatherDay(
+    val date: String,
+    val dayDetails: List<HourlyWeather>
+)
+
+data class HourlyWeather(
+    val time: String,
+    val temperature: Double,
+    val humidity: Int,
+    val weatherType: String,
+    val weatherTypeAr: String?,
+    val warningText: String?,
+    val warningTextAr: String?,
+    val weatherIcon: String?,
+    val timestamp: Long,
+    val timeHrQatar: String?,
+    val timeHrUtc: String?,
+    val windPower: Double,
+    val windDirection: Int,
+    val windDirectionText: String?,
+    val rain: Double,
+    val pressure: Int,
+    val visibility: Int,
+    val visibilityUnit: String,
+    val pressureUnit: String,
+    val rainUnit: String,
+    val humidityUnit: String,
+    val temperatureUnit: String,
+    val windPowerUnit: String
 )

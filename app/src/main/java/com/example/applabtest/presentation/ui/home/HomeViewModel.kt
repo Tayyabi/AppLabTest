@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.applabtest.domain.model.City
 import com.example.applabtest.domain.model.WeatherData
 import com.example.applabtest.domain.model.DailyWeather
+import com.example.applabtest.domain.model.HourlyWeather
 import com.example.applabtest.domain.usecase.GetCitiesUseCase
 import com.example.applabtest.domain.usecase.GetCurrentWeatherUseCase
 import java.text.SimpleDateFormat
@@ -261,6 +262,23 @@ class HomeViewModel @Inject constructor(
                         rain = daily.rain
                     )
                 )
+            }
+        }
+    }
+
+    // Get hourly data for the currently selected date
+    fun getHourlyDataForSelectedDate(): List<HourlyWeather> {
+        val currentState = _uiState.value
+        val weatherData = currentState.weatherData ?: return emptyList()
+
+        return when (currentState.selectedDateIndex) {
+            0 -> {
+                // For current day, return the first day's hourly data if available
+                weatherData.hourlyData.firstOrNull()?.dayDetails ?: emptyList()
+            }
+            else -> {
+                // For future dates, get hourly data for the corresponding date
+                weatherData.hourlyData.getOrNull(currentState.selectedDateIndex)?.dayDetails ?: emptyList()
             }
         }
     }
